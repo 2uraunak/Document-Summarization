@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document Summarization System (NLP)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b0f19; color: #f8fafc; margin: 0; padding: 30px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { color: #818cf8; margin-bottom: 6px; }
+        .subtitle { color: #94a3b8; margin-bottom: 24px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .card { background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 24px; }
+        textarea { width: 100%; height: 260px; padding: 14px; border-radius: 8px; border: 1px solid #374151; background: #0f172a; color: #fff; box-sizing: border-box; font-family: inherit; font-size: 14px; resize: vertical; }
+        button { background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; margin-top: 14px; }
+        button:hover { background: #4f46e5; }
+        .summary-box { background: #1e293b; border-radius: 10px; padding: 20px; margin-top: 10px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-card { background: #0f172a; border-radius: 8px; padding: 12px; text-align: center; }
+        .stat-val { font-size: 22px; font-weight: bold; color: #38bdf8; }
+        .bullet-item { margin-bottom: 12px; line-height: 1.5; color: #cbd5e1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📑 Automatic Document Summarization System (NLP)</h1>
+        <p class="subtitle">Transformer-Powered Text Condensation and Abstractive Keypoint Extraction</p>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Source Document</h2>
+                <form action="/summarize" method="POST">
+                    <textarea name="document_text" placeholder="Paste your research paper, news article, or essay here..." required>{{ input_text or '' }}</textarea>
+                    <button type="submit">⚡ Synthesize Executive Summary</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Executive Key Points</h2>
+                {% if summarized %}
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div style="font-size:12px; color:#94a3b8;">ORIGINAL WORDS</div>
+                        <div class="stat-val">{{ orig_count }}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size:12px; color:#94a3b8;">SUMMARY WORDS</div>
+                        <div class="stat-val" style="color:#10b981;">{{ sum_count }}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size:12px; color:#94a3b8;">COMPRESSION</div>
+                        <div class="stat-val" style="color:#f59e0b;">{{ compression }}%</div>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <h3 style="margin-top:0; color:#818cf8;">Key Takeaways:</h3>
+                    {% for b in bullets %}
+                    <div class="bullet-item">• {{ b }}</div>
+                    {% endfor %}
+                </div>
+                <div style="font-size:13px; color:#94a3b8; margin-top:10px;">
+                    Estimated reading time saved: <strong>{{ time_saved }} minutes</strong> (at 200 WPM).
+                </div>
+                {% else %}
+                <p style="color:#64748b; text-align:center; padding: 60px 0;">Paste text into the left pane to extract key conceptual takeaways.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
